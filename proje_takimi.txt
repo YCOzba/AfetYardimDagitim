@@ -1,12 +1,12 @@
 Nesneye Yönelik Programlama - Proje Ödevi
-Grup No      :
+Grup No      : 4
 Proje Konusu : Afet ve Acil Durum Yönetimi - Yardım kaynaklarının öncelik ve ihtiyaç durumuna göre dağıtılması
 GitHub       : https://github.com/YCOzba/AfetYardimDagitim
 
 Öğrenci No      Ad Soyad                  Görevi
 ----------      ------------------------  ----------------------------------------------------------------
-                                          Model sınıfları (Kaynak hiyerarşisi, AfetBolgesi, YardimTalebi, KaynakFactory)
-                                          Öncelik puanı hesaplama ve dağıtım algoritmaları (Strategy)
-                                          Depo, stok uyarı sistemi (Observer) ve dosya işlemleri (Repository)
-                                          Servis katmanı ve konsol menüsü
-                                          Birim testleri, UML diyagramı, README ve tanıtım videosu
+1250505045      Halil Kerem Güler         Model sınıfları (Kaynak hiyerarşisi, AfetBolgesi, YardimTalebi, KaynakFactory)
+1250505047      Mehmet Akif Gök           Öncelik puanı hesaplama ve dağıtım algoritmaları (Strategy)
+1250505015      Berat Abdullah Mumcu      Depo, stok uyarı sistemi (Observer) ve dosya işlemleri (Repository)
+1250505057      Yağız Çınar Özbakır       Servis katmanı ve konsol menüsü
+1250505011      Bekir Berk Kahveci        Birim testleri, UML diyagramı, README ve tanıtım videosu

@@ -279,9 +279,17 @@ Henüz karşılanamayan ihtiyaçlar:
 - Bölgeler arası mesafe / ulaşım durumu öncelik puanına eklenebilir
 - Dosya yerine veritabanı (SQLite vb.) kullanılabilir; servis `Repository` arayüzüne bağlı olduğu için sadece yeni bir repository sınıfı yazmak yeterli olur
 
-## Proje Ekibi
+## Proje Ekibi (Grup 4)
 
-Grup üyeleri ve görev dağılımı [proje_takimi.txt](proje_takimi.txt) dosyasında.
+| Öğrenci No | Ad Soyad | Görevi |
+|---|---|---|
+| 1250505045 | Halil Kerem Güler | Model sınıfları (Kaynak hiyerarşisi, AfetBolgesi, YardimTalebi, KaynakFactory) |
+| 1250505047 | Mehmet Akif Gök | Öncelik puanı hesaplama ve dağıtım algoritmaları (Strategy) |
+| 1250505015 | Berat Abdullah Mumcu | Depo, stok uyarı sistemi (Observer) ve dosya işlemleri (Repository) |
+| 1250505057 | Yağız Çınar Özbakır | Servis katmanı ve konsol menüsü |
+| 1250505011 | Bekir Berk Kahveci | Birim testleri, UML diyagramı, README ve tanıtım videosu |
+
+Aynı bilgiler [proje_takimi.txt](proje_takimi.txt) dosyasında da var.
 
 ## Tanıtım Videosu
 
