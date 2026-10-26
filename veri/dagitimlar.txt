@@ -1,0 +1,1 @@
+# talepId;bolge;kaynakTuru;miktar;tarih;yontem

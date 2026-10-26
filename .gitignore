@@ -1,0 +1,8 @@
+target/
+out/
+.idea/
+*.iml
+.vscode/
+
+# program calisirken olusan uyari kayitlari
+veri/uyarilar.log

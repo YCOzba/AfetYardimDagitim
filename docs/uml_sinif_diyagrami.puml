@@ -1,0 +1,261 @@
+@startuml uml_sinif_diyagrami
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam defaultFontName Arial
+skinparam class {
+  BackgroundColor #FDFDFD
+  BorderColor #555555
+  ArrowColor #444444
+}
+hide empty members
+
+title Afet Yardım Dağıtım Sistemi - UML Sınıf Diyagramı
+
+package "model" {
+  abstract class Kaynak {
+    - id : String
+    - ad : String
+    - miktar : int
+    # Kaynak(id, ad, miktar)
+    + {abstract} getTur() : KaynakTuru
+    + {abstract} getBirim() : String
+    + {abstract} getEkBilgi() : String
+    + {abstract} getAciklama() : String
+    + kullanilabilirMi(tarih : LocalDate) : boolean
+    + stokEkle(miktar : int) : void
+    + stokDus(miktar : int) : void
+  }
+
+  abstract class TarihliKaynak {
+    - sonKullanmaTarihi : LocalDate
+    + kullanilabilirMi(tarih : LocalDate) : boolean
+    + sktYaklasiyorMu(bugun : LocalDate, gun : int) : boolean
+  }
+
+  class Gida {
+    + getTur() : KaynakTuru
+    + getBirim() : String
+  }
+
+  class Su {
+    + getTur() : KaynakTuru
+    + getBirim() : String
+  }
+
+  class Ilac {
+    - sogukZincir : boolean
+    + getEkBilgi() : String
+    + getAciklama() : String
+  }
+
+  class BarinmaMalzemesi {
+    - kisiKapasitesi : int
+    + getEkBilgi() : String
+    + getAciklama() : String
+  }
+
+  class KaynakFactory <<Factory>> {
+    + {static} olustur(tur, id, ad, miktar, ekBilgi) : Kaynak
+  }
+
+  class AfetBolgesi {
+    - id : String
+    - ad : String
+    - il : String
+    - etkilenenKisi : int
+    - hasarSeviyesi : int
+    + setEtkilenenKisi(kisi : int) : void
+    + setHasarSeviyesi(seviye : int) : void
+  }
+
+  class YardimTalebi {
+    - id : String
+    - istenenMiktar : int
+    - karsilananMiktar : int
+    - talepTarihi : LocalDate
+    + kalanIhtiyac() : int
+    + tamamlandiMi() : boolean
+    + karsila(miktar : int) : void
+    + getDurum() : TalepDurumu
+  }
+
+  class DagitimKaydi {
+    - talepId : String
+    - bolgeAdi : String
+    - miktar : int
+    - tarih : LocalDateTime
+    - stratejiAdi : String
+  }
+
+  enum KaynakTuru {
+    GIDA
+    SU
+    ILAC
+    BARINMA
+    - oncelikKatsayisi : double
+    - kritikSeviye : int
+  }
+
+  enum Aciliyet {
+    DUSUK
+    ORTA
+    YUKSEK
+    KRITIK
+    - puan : int
+  }
+
+  enum TalepDurumu {
+    BEKLIYOR
+    KISMEN_KARSILANDI
+    KARSILANDI
+  }
+
+  class YetersizStokException
+}
+
+package "depo" {
+  class Depo {
+    - kaynaklar : List<Kaynak>
+    - dinleyiciler : List<StokDinleyici>
+    + kaynakEkle(k : Kaynak) : void
+    + kullanilabilirStok(tur, tarih) : int
+    + stokCek(tur, miktar, tarih) : void
+    + dinleyiciEkle(d : StokDinleyici) : void
+    + sktYaklasanlar(bugun, gun) : List<TarihliKaynak>
+  }
+
+  interface StokDinleyici <<Observer>> {
+    + kritikStok(tur : KaynakTuru, kalan : int) : void
+  }
+
+  class KonsolStokUyarisi
+  class DosyaStokUyarisi {
+    - dosya : Path
+  }
+}
+
+package "dagitim" {
+  interface DagitimStratejisi <<Strategy>> {
+    + getAd() : String
+    + getAciklama() : String
+    + dagit(talepler : List<YardimTalebi>, stok : int) : Map<YardimTalebi, Integer>
+  }
+
+  class OncelikliDagitim {
+    + dagit(talepler, stok) : Map<YardimTalebi, Integer>
+  }
+
+  class OransalDagitim {
+    + dagit(talepler, stok) : Map<YardimTalebi, Integer>
+    - eksik(talep, verilen) : int
+  }
+
+  class OncelikHesaplayici {
+    - bugun : LocalDate
+    + puanHesapla(t : YardimTalebi) : double
+    + karsilastirici() : Comparator<YardimTalebi>
+    + sirala(talepler) : List<YardimTalebi>
+  }
+}
+
+package "veri" {
+  interface "Repository<T>" as Repository {
+    + hepsiniYukle() : List<T>
+    + hepsiniKaydet(liste : List<T>) : void
+  }
+
+  abstract class "DosyaRepository<T>" as DosyaRepository <<Template Method>> {
+    - dosya : Path
+    - onbellek : List<T>
+    + hepsiniYukle() : List<T>
+    + hepsiniKaydet(liste : List<T>) : void
+    # {abstract} satirdanOku(alanlar : String[]) : T
+    # {abstract} satiraCevir(nesne : T) : String
+    # {abstract} baslik() : String
+  }
+
+  class KaynakRepository
+  class BolgeRepository
+  class TalepRepository
+  class DagitimRepository
+}
+
+package "servis" {
+  class AfetYonetimServisi {
+    - bolgeler : List<AfetBolgesi>
+    - talepler : List<YardimTalebi>
+    - dagitimlar : List<DagitimKaydi>
+    + kaynakEkle(tur, ad, miktar, ekBilgi) : Kaynak
+    + bolgeEkle(ad, il, kisi, hasar) : AfetBolgesi
+    + bolgeGuncelle(id, kisi, hasar) : void
+    + talepOlustur(bolgeId, tur, miktar, aciliyet) : YardimTalebi
+    + bekleyenTalepler() : List<YardimTalebi>
+    + dagitimYap(s : DagitimStratejisi) : List<DagitimKaydi>
+  }
+}
+
+package "arayuz" {
+  class KonsolMenu {
+    - scanner : Scanner
+    + baslat() : void
+  }
+}
+
+class Main {
+  + {static} main(args : String[]) : void
+}
+
+' kalıtım
+Kaynak <|-- TarihliKaynak
+Kaynak <|-- BarinmaMalzemesi
+TarihliKaynak <|-- Gida
+TarihliKaynak <|-- Su
+TarihliKaynak <|-- Ilac
+RuntimeException <|-- YetersizStokException
+
+StokDinleyici <|.. KonsolStokUyarisi
+StokDinleyici <|.. DosyaStokUyarisi
+DagitimStratejisi <|.. OncelikliDagitim
+DagitimStratejisi <|.. OransalDagitim
+Repository <|.. DosyaRepository
+DosyaRepository <|-- KaynakRepository
+DosyaRepository <|-- BolgeRepository
+DosyaRepository <|-- TalepRepository
+DosyaRepository <|-- DagitimRepository
+
+' ilişkiler
+Kaynak ..> KaynakTuru
+KaynakFactory ..> Kaynak : <<create>>
+YardimTalebi --> "1" AfetBolgesi
+YardimTalebi --> KaynakTuru
+YardimTalebi --> Aciliyet
+YardimTalebi ..> TalepDurumu
+DagitimKaydi --> KaynakTuru
+
+Depo o-- "*" Kaynak
+Depo o-- "*" StokDinleyici
+Depo ..> YetersizStokException : <<throws>>
+
+OncelikliDagitim --> OncelikHesaplayici
+OransalDagitim --> OncelikHesaplayici
+OncelikHesaplayici ..> YardimTalebi
+
+KaynakRepository ..> KaynakFactory
+TalepRepository --> Repository : bölgeleri bulmak için
+
+AfetYonetimServisi --> Depo
+AfetYonetimServisi --> "4" Repository
+AfetYonetimServisi o-- "*" AfetBolgesi
+AfetYonetimServisi o-- "*" YardimTalebi
+AfetYonetimServisi o-- "*" DagitimKaydi
+AfetYonetimServisi ..> DagitimStratejisi
+
+KonsolMenu --> AfetYonetimServisi
+KonsolMenu --> OncelikHesaplayici
+KonsolMenu --> "*" DagitimStratejisi
+
+Main ..> KonsolMenu : <<create>>
+Main ..> AfetYonetimServisi : <<create>>
+@enduml

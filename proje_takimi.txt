@@ -1,0 +1,12 @@
+Nesneye Yönelik Programlama - Proje Ödevi
+Grup No      :
+Proje Konusu : Afet ve Acil Durum Yönetimi - Yardım kaynaklarının öncelik ve ihtiyaç durumuna göre dağıtılması
+GitHub       : https://github.com/YCOzba/AfetYardimDagitim
+
+Öğrenci No      Ad Soyad                  Görevi
+----------      ------------------------  ----------------------------------------------------------------
+                                          Model sınıfları (Kaynak hiyerarşisi, AfetBolgesi, YardimTalebi, KaynakFactory)
+                                          Öncelik puanı hesaplama ve dağıtım algoritmaları (Strategy)
+                                          Depo, stok uyarı sistemi (Observer) ve dosya işlemleri (Repository)
+                                          Servis katmanı ve konsol menüsü
+                                          Birim testleri, UML diyagramı, README ve tanıtım videosu

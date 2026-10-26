@@ -1,0 +1,5 @@
+# id;ad;il;etkilenenKisi;hasarSeviyesi
+B1;Antakya Merkez;Hatay;48000;5
+B2;Onikişubat;Kahramanmaraş;35000;4
+B3;Nurdağı;Gaziantep;9000;3
+B4;Doğanşehir;Malatya;6500;2

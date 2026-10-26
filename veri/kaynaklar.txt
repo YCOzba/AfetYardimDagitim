@@ -1,0 +1,9 @@
+# tur;id;ad;miktar;ekBilgi
+SU;K1;Pet şişe su 1.5L;2400;2027-08-01
+SU;K2;Damacana su 19L;950;2027-02-15
+GIDA;K3;Kuru gıda kolisi;300;2027-05-20
+GIDA;K4;Hazır yemek kolisi;120;2026-12-10
+ILAC;K5;İlk yardım çantası;150;2028-01-01,false
+ILAC;K6;İnsülin;40;2027-01-30,true
+BARINMA;K7;Afet çadırı;80;5
+BARINMA;K8;Battaniye;600;1
